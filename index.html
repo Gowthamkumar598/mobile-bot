@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Cart | Premium Phone Store</title>
+    <style>
+        /* --- GLOBAL STYLES --- */
+        :root {
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --secondary: #ec4899;
+            --bg-page: #f8fafc;
+            --bg-card: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --radius-sm: 0.375rem;
+            --radius-md: 0.75rem;
+            --radius-lg: 1rem;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+            --font-sans: system-ui, -apple-system, sans-serif;
+            --max-width: 1200px;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg-page: #0f172a;
+                --bg-card: #1e293b;
+                --text-main: #f8fafc;
+                --text-muted: #94a3b8;
+                --border: #334155;
+                --primary: #6366f1;
+            }
+        }
+
+        * {
+            box-sizing: border-box;
+            padding: 0;
+            margin: 0;
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-page);
+            color: var(--text-main);
+            line-height: 1.5;
+        }
+
+        button {
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-family: inherit;
+        }
+
+        .container {
+            width: 100%;
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-sm);
+            font-weight: 500;
+            transition: 0.2s;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* --- HEADER --- */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .header-content {
+            display: flex;
+            height: 4rem;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 700;
+            font-size: 1.25rem;
+        }
+
+        .logo-icon {
+            width: 2.5rem;
+            height: 2.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cart-btn {
+            position: relative;
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-main);
+        }
+
+        .cart-btn:hover {
+            background-color: var(--bg-page);
+        }
+
+        .badge {
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            background: var(--secondary);
+            color: white;
+            font-size: 0.75rem;
+            padding: 0 5px;
+            border-radius: 10px;
+            min-width: 18px;
+            text-align: center;
+        }
+
+        /* --- HERO --- */
+        .hero {
+            padding: 5rem 0;
+            text-align: center;
+            background: radial-gradient(circle at center, rgba(79, 70, 229, 0.05) 0%, transparent 70%);
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            line-height: 1.1;
+        }
+
+        .hero p {
+            color: var(--text-muted);
+            font-size: 1.25rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .text-gradient {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        /* --- GRID --- */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+            padding: 2rem 0;
+        }
+
+        /* --- CARD --- */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            transition: 0.2s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            ,
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .card-img-wrapper {
+            aspect-ratio: 4/3;
+            padding: 1rem;
+            background: #f1f5f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transition: 0.3s;
+        }
+
+        .card:hover .card-img {
+            transform: scale(1.05);
+        }
+
+        .card-content {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-meta {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .brand {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .price {
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 1.125rem;
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-desc {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .specs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            margin-top: auto;
+            flex-wrap: wrap;
+        }
+
+        .spec-tag {
+            font-size: 0.75rem;
+            background: var(--bg-page);
+            padding: 0.25rem 0.5rem;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+        }
+
+        .buy-btn {
+            width: 100%;
+            margin-top: auto;
+        }
+
+        /* --- DRAWER --- */
+        .overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 200;
+            display: none;
+            justify-content: flex-end;
+        }
+
+        .overlay.open {
+            display: flex;
+            animation: fadeIn 0.3s;
+        }
+
+        .drawer {
+            width: 100%;
+            max-width: 400px;
+            background: var(--bg-card);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            animation: slideIn 0.3s;
+        }
+
+        .drawer-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .drawer-items {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .cart-item {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .cart-img {
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 2px;
+        }
+
+        .drawer-footer {
+            padding: 1.5rem;
+            border-top: 1px solid var(--border);
+            background: var(--bg-page);
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 700;
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+        }
+
+        /* --- CHAT --- */
+        .chat-toggle {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 3.5rem;
+            height: 3.5rem;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-lg);
+            transition: 0.2s;
+            z-index: 100;
+        }
+
+        .chat-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        .chat-window {
+            position: fixed;
+            bottom: 6rem;
+            right: 2rem;
+            width: 350px;
+            height: 500px;
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-lg);
+            display: none;
+            flex-direction: column;
+            z-index: 100;
+            overflow: hidden;
+        }
+
+        .chat-window.open {
+            display: flex;
+            animation: fadeIn 0.3s;
+        }
+
+        .chat-header {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+            background: var(--bg-page);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .chat-msgs {
+            flex: 1;
+            padding: 1rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .msg {
+            max-width: 85%;
+            padding: 0.75rem 1rem;
+            border-radius: 1rem;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .msg.user {
+            align-self: flex-end;
+            background: var(--primary);
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+
+        .msg.assistant {
+            align-self: flex-start;
+            background: #f1f5f9;
+            color: var(--text-main);
+            border-bottom-left-radius: 4px;
+        }
+
+        .chat-input-area {
+            padding: 1rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            outline: none;
+        }
+
+        .chat-input:focus {
+            border-color: var(--primary);
+        }
+
+        .chat-context {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 0.75rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.8rem;
+            color: #64748b;
+        }
+
+        .chat-context-title {
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .context-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.25rem 0;
+            border-bottom: 1px dotted #e2e8f0;
+        }
+
+        .context-item:last-child {
+            border-bottom: none;
+        }
+
+        .context-icon {
+            width: 4px;
+            height: 4px;
+            background: #6366f1;
+            border-radius: 50%;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+            }
+
+            to {
+                transform: translateX(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <div class="logo-icon">✨</div>
+                <span>Mobile Cart</span>
+            </div>
+            <button class="cart-btn" onclick="toggleCart()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="8" cy="21" r="1" />
+                    <circle cx="19" cy="21" r="1" />
+                    <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" />
+                </svg>
+                <span id="cart-badge" class="badge" style="display: none;">0</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- HERO -->
+    <div class="hero">
+        <div class="container">
+            <h1>Find Your <span class="text-gradient">Perfect Phone</span></h1>
+            <p>Explore our premium collection or ask our AI assistant for a personalized recommendation.</p>
+        </div>
+    </div>
+
+    <!-- MAIN GRID -->
+    <div class="container">
+        <div id="product-grid" class="grid">
+            <!-- Products injected here -->
+        </div>
+    </div>
+
+    <!-- CART DRAWER -->
+    <div id="cart-overlay" class="overlay">
+        <div class="drawer">
+            <div class="drawer-header">
+                <h2>Your Cart</h2>
+                <button onclick="toggleCart()">✕</button>
+            </div>
+            <div id="cart-items" class="drawer-items">
+                <!-- Cart items injected here -->
+            </div>
+            <div class="drawer-footer">
+                <div class="total-row">
+                    <span>Total:</span>
+                    <span id="cart-total">$0</span>
+                </div>
+                <button class="btn btn-primary" style="width: 100%">Checkout</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CHAT WIDGET -->
+    <button class="chat-toggle" onclick="toggleChat()">✨</button>
+    <div id="chat-window" class="chat-window">
+        <div class="chat-header">
+            <span>AI Assistant</span>
+            <button onclick="toggleChat()">✕</button>
+        </div>
+        <div id="chat-msgs" class="chat-msgs">
+            <div class="msg assistant">Hi! I can help you find the perfect phone. Try saying "I want a good camera under
+                $800".</div>
+        </div>
+        <form class="chat-input-area" onsubmit="handleChat(event)">
+            <input id="chat-input" type="text" class="chat-input" placeholder="Ask..." autocomplete="off">
+            <button type="submit" class="btn btn-primary" style="border-radius: 20px;">Send</button>
+        </form>
+    </div>
+
+    <script>
+        // --- DATA ---
+        const phones = [
+            { id: "1", name: "Pixel 8 Pro", brand: "Google", price: 999, image: "https://storage.googleapis.com/gweb-uniblog-publish-prod/images/Pixel_8_Pro_Bay.max-1000x1000.jpg", description: "The most powerful Pixel yet.", specs: { screen: "6.7-inch", camera: "50MP Main" } },
+            { id: "2", name: "iPhone 15 Pro", brand: "Apple", price: 1099, image: "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-15-pro-titanium-natural-select-202309?wid=940&hei=1112&fmt=png-alpha", description: "Forged in titanium.", specs: { screen: "6.1-inch", camera: "48MP Main" } },
+            { id: "3", name: "Galaxy S24 Ultra", brand: "Samsung", price: 1299, image: "https://images.samsung.com/is/image/samsung/p6pim/uk/2401/gallery/uk-galaxy-s24-s928-sm-s928bztpeub-539659352?$650_519_PNG$", description: "Galaxy AI is here.", specs: { screen: "6.8-inch", camera: "200MP Main" } },
+            { id: "4", name: "Nothing Phone (2)", brand: "Nothing", price: 699, image: "https://nothing.tech/cdn/shop/files/Phone_2_PDP_White_1.png?v=1689068067", description: "Come to the bright side.", specs: { screen: "6.7-inch", camera: "50MP Dual" } },
+            { id: "5", name: "Pixel 7a", brand: "Google", price: 499, image: "https://lh3.googleusercontent.com/f0sC6XF89F3lD9C7yF9yC9C89F3lD9C7yF9yC9C89F3lD9C7", description: "Super fast, secure, and full of essentials.", specs: { screen: "6.1-inch", camera: "64MP Main" } },
+            { id: "6", name: "OnePlus 12", brand: "OnePlus", price: 799, image: "https://image01.oneplus.net/ebp/202401/23/1-m00-51-ef-cpgm7mwu3yqaa0buaamk1_k8qg4066.png", description: "Smooth Beyond Belief.", specs: { screen: "6.8-inch", camera: "50MP Main" } }
+        ];
+
+        // --- STATE ---
+        let cart = [];
+
+        // --- RENDER PRODUCTS ---
+        const grid = document.getElementById('product-grid');
+        phones.forEach(phone => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.innerHTML = `
+                <div class="card-img-wrapper"><img src="${phone.image}" class="card-img" alt="${phone.name}"></div>
+                <div class="card-content">
+                    <div class="card-meta"><span class="brand">${phone.brand}</span><span class="price">$${phone.price}</span></div>
+                    <div class="card-title">${phone.name}</div>
+                    <div class="card-desc">${phone.description}</div>
+                    <div class="specs"><span class="spec-tag">${phone.specs.screen}</span><span class="spec-tag">${phone.specs.camera}</span></div>
+                    <div style="display:flex; margin-top:auto;">
+                        <button class="btn btn-primary" style="flex:1" onclick="addToCart('${phone.id}')">Add to Cart</button>
+                        <a href="https://www.amazon.com/s?k=${encodeURIComponent(phone.name + ' ' + phone.brand)}" target="_blank" class="btn btn-amazon" title="Buy on Amazon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>
+                        </a>
+                    </div>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+
+        // --- CART LOGIC ---
+        function addToCart(id) {
+            const product = phones.find(p => p.id === id);
+            const existing = cart.find(item => item.id === id);
+            if (existing) {
+                existing.quantity++;
+            } else {
+                cart.push({ ...product, quantity: 1 });
+            }
+            updateCartUI();
+            toggleCart(true);
+        }
+
+        function removeFromCart(id) {
+            cart = cart.filter(item => item.id !== id);
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const itemsContainer = document.getElementById('cart-items');
+            const totalEl = document.getElementById('cart-total');
+            const badge = document.getElementById('cart-badge');
+
+            itemsContainer.innerHTML = '';
+            let total = 0;
+            let count = 0;
+
+            if (cart.length === 0) {
+                itemsContainer.innerHTML = '<div style="text-align:center; color: var(--text-muted); margin-top:2rem;">Your cart is empty.</div>';
+            } else {
+                cart.forEach(item => {
+                    total += item.price * item.quantity;
+                    count += item.quantity;
+                    const div = document.createElement('div');
+                    div.className = 'cart-item';
+                    div.innerHTML = `
+                        <img src="${item.image}" class="cart-img">
+                        <div style="flex:1">
+                            <div style="font-weight:600">${item.name}</div>
+                            <div style="font-size:0.85rem; color:var(--text-muted)">$${item.price} x ${item.quantity}</div>
+                        </div>
+                        <button onclick="removeFromCart('${item.id}')" style="color:var(--secondary); font-size:0.85rem">Remove</button>
+                    `;
+                    itemsContainer.appendChild(div);
+                });
+            }
+
+            totalEl.textContent = '$' + total.toLocaleString();
+            badge.textContent = count;
+            badge.style.display = count > 0 ? 'block' : 'none';
+        }
+
+        function toggleCart(forceOpen) {
+            const overlay = document.getElementById('cart-overlay');
+            if (forceOpen === true) {
+                overlay.classList.add('open');
+            } else if (forceOpen === false) {
+                overlay.classList.remove('open');
+            } else {
+                overlay.classList.toggle('open');
+            }
+        }
+
+        // --- CHAT LOGIC (RAG MOCK) ---
+        function toggleChat() {
+            document.getElementById('chat-window').classList.toggle('open');
+        }
+
+        async function handleChat(e) {
+            e.preventDefault();
+            const input = document.getElementById('chat-input');
+            const userText = input.value.trim();
+            if (!userText) return;
+
+            // Add user message
+            addMessage(userText, 'user');
+            input.value = '';
+
+            // Simulate "Thinking"
+            const loadingId = addMessage('Thinking...', 'assistant');
+
+            // RAG Logic
+            await new Promise(r => setTimeout(r, 800));
+
+            // 1. Retrieval Step (Simulated Vector Search)
+            // Expand query with simple synonyms to simulate semantic understanding
+            let searchTerms = userText.toLowerCase().split(' ');
+            if (userText.includes('photo') || userText.includes('picture')) searchTerms.push('camera');
+            if (userText.includes('expensive')) searchTerms.push('premium', 'pro', 'ultra');
+            if (userText.includes('game') || userText.includes('gaming')) searchTerms.push('snapdragon', 'ram', 'fast');
+
+            let matches = phones.map(p => {
+                let score = 0;
+                const text = (p.name + " " + p.brand + " " + p.description + " " + p.specs.screen + " " + p.specs.camera).toLowerCase();
+
+                searchTerms.forEach(term => {
+                    if (term.length > 2 && text.includes(term)) score += 1;
+                });
+
+                // Price logic
+                if (userText.includes('under')) {
+                    const budget = parseInt(userText.match(/under\s?\$?(\d+)/)?.[1] || '10000');
+                    if (p.price > budget) score = -1; // Filter out
+                }
+
+                return { product: p, score };
+            }).filter(item => item.score > 0).sort((a, b) => b.score - a.score).slice(0, 3);
+
+            // Remove loading
+            document.getElementById(loadingId).remove();
+
+            // 2. Show Retrieved Context (The "R" in RAG)
+            if (matches.length > 0) {
+                const contextDiv = document.createElement('div');
+                contextDiv.className = 'chat-context';
+                let contextHtml = `<div class="chat-context-title">🔍 Retrieved Knowledge Base</div>`;
+                matches.forEach(m => {
+                    contextHtml += `
+                        <div class="context-item">
+                            <span class="context-icon"></span>
+                            <span>${m.product.name} ($${m.product.price})</span>
+                        </div>
+                    `;
+                });
+                contextDiv.innerHTML = contextHtml;
+                document.getElementById('chat-msgs').appendChild(contextDiv);
+
+                // 3. Generation Step (Simulated LLM Response)
+                const names = matches.map(m => m.product.name).join(', ');
+                let answer = `Based on your request, I definitely recommend looking at: **${names}**.`;
+
+                if (userText.includes('camera')) {
+                    answer = `For photography, these are the best options in our catalog: **${names}**. They feature high-end sensors perfect for what you need.`;
+                } else if (userText.includes('cheap') || userText.includes('budget')) {
+                    answer = `I found these great value options for you: **${names}**.`;
+                }
+
+                addMessage(answer, 'assistant');
+            } else {
+                addMessage("I searched our database but couldn't find a phone matching those exact criteria. Try broadening your search!", 'assistant');
+            }
+        }
+
+        function addMessage(text, role) {
+            const id = 'msg-' + Date.now();
+            const div = document.createElement('div');
+            div.id = id;
+            div.className = `msg ${role}`;
+            div.textContent = text;
+            const container = document.getElementById('chat-msgs');
+            container.appendChild(div);
+            container.scrollTop = container.scrollHeight;
+            return id;
+        }
+    </script>
+</body>
+
+</html>

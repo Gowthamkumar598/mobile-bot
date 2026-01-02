@@ -1,0 +1,114 @@
+[
+    {
+        "id": "1",
+        "name": "Pixel 8 Pro",
+        "brand": "Google",
+        "price": 999,
+        "image": "https://storage.googleapis.com/gweb-uniblog-publish-prod/images/Pixel_8_Pro_Bay.max-1000x1000.jpg",
+        "description": "The most powerful Pixel yet, featuring the Tensor G3 and pro-level camera controls.",
+        "specs": {
+            "screen": "6.7-inch OLED",
+            "ram": "12GB",
+            "storage": "128GB",
+            "camera": "50MP Main, 48MP Telephoto"
+        }
+    },
+    {
+        "id": "2",
+        "name": "iPhone 15 Pro",
+        "brand": "Apple",
+        "price": 1099,
+        "image": "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-15-pro-titanium-natural-select-202309?wid=940&hei=1112&fmt=png-alpha",
+        "description": "Forged in titanium. Featuring the A17 Pro chip and a customizable Action button.",
+        "specs": {
+            "screen": "6.1-inch OLED",
+            "ram": "8GB",
+            "storage": "128GB",
+            "camera": "48MP Main, 3x Telephoto"
+        }
+    },
+    {
+        "id": "3",
+        "name": "Galaxy S24 Ultra",
+        "brand": "Samsung",
+        "price": 1299,
+        "image": "https://images.samsung.com/is/image/samsung/p6pim/uk/2401/gallery/uk-galaxy-s24-s928-sm-s928bztpeub-539659352?$650_519_PNG$",
+        "description": "Galaxy AI is here. The ultimate Galaxy phone with Titanium frame and S Pen.",
+        "specs": {
+            "screen": "6.8-inch AMOLED",
+            "ram": "12GB",
+            "storage": "256GB",
+            "camera": "200MP Main, 10x Optical Zoom"
+        }
+    },
+    {
+        "id": "4",
+        "name": "Nothing Phone (2)",
+        "brand": "Nothing",
+        "price": 699,
+        "image": "https://nothing.tech/cdn/shop/files/Phone_2_PDP_White_1.png?v=1689068067",
+        "description": "Come to the bright side. New Glyph Interface and Nothing OS 2.0.",
+        "specs": {
+            "screen": "6.7-inch OLED",
+            "ram": "12GB",
+            "storage": "256GB",
+            "camera": "50MP Dual"
+        }
+    },
+    {
+        "id": "5",
+        "name": "Pixel 7a",
+        "brand": "Google",
+        "price": 499,
+        "image": "https://lh3.googleusercontent.com/f0sC6XF89F3lD9C7yF9yC9C89F3lD9C7yF9yC9C89F3lD9C7",
+        "description": "Super fast, secure, and full of essentials. The best value Pixel.",
+        "specs": {
+            "screen": "6.1-inch OLED",
+            "ram": "8GB",
+            "storage": "128GB",
+            "camera": "64MP Main"
+        }
+    },
+    {
+        "id": "6",
+        "name": "OnePlus 12",
+        "brand": "OnePlus",
+        "price": 799,
+        "image": "https://image01.oneplus.net/ebp/202401/23/1-m00-51-ef-cpgm7mwu3yqaa0buaamk1_k8qg4066.png",
+        "description": "Smooth Beyond Belief. Snapdragon 8 Gen 3 and 4th Gen Hasselblad Camera.",
+        "specs": {
+            "screen": "6.8-inch AMOLED",
+            "ram": "16GB",
+            "storage": "512GB",
+            "camera": "50MP Main, 64MP Periscope"
+        }
+    },
+    {
+        "id": "7",
+        "name": "iPhone 13",
+        "brand": "Apple",
+        "price": 599,
+        "image": "https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-13-blue-select-2021?wid=940&hei=1112&fmt=png-alpha",
+        "description": "A total powerhouse. A ceramic shield, tougher than any smartphone glass.",
+        "specs": {
+            "screen": "6.1-inch OLED",
+            "ram": "4GB",
+            "storage": "128GB",
+            "camera": "12MP Dual"
+        }
+    },
+    {
+        "id": "8",
+        "name": "Xperia 1 V",
+        "brand": "Sony",
+        "price": 1399,
+        "image": "https://www.sony.co.uk/image/09d2f26017b203c9b76813357564619d?fmt=png-alpha&wid=660&hei=660",
+        "description": "Next-gen sensor. Exmor T for mobile. True optical zoom.",
+        "specs": {
+            "screen": "6.5-inch 4K OLED",
+            "ram": "12GB",
+            "storage": "256GB",
+            "camera": "48MP Main, 85-125mm Zoom"
+        }
+    }
+]
